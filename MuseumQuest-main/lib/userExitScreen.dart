@@ -61,7 +61,14 @@ class userExitScreen extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: OutlinedButton(
               onPressed: () {
-                setQuestStatus(questId, '1');
+                // изменение статуса квеста
+                updateQuest(questId, newStatus: '1');
+                stopTimer();
+                updateQuest(questId, time: getResultTime(questId));
+                print(
+                    "status: " + getQuestInfo(questId, questInfo: "status").toString() + ' \n' +
+                    "time: " + getQuestInfo(questId, questInfo: "time").toString() + "\n"
+                );
                 Navigator.push(
                   context,
                   MaterialPageRoute(

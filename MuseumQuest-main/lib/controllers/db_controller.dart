@@ -24,7 +24,7 @@ String jsonString = '''
             4,
             5
           ],
-          "completion_time": null
+          "completion_time": 13
           },
         {
           "quest_id": 3,

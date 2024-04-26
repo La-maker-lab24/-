@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:museum_app/modules/exhibit_module.dart';
+import 'package:museum_app/modules/quests_module.dart';
 import 'package:museum_app/userQuestScreen.dart';
 
 class userCheckQuestionScreen extends StatefulWidget {
@@ -114,7 +114,8 @@ class _userCheckQuestionScreenState extends State<userCheckQuestionScreen> {
                       if (isCorrect) {
                         widget.onAnswerSubmitted(true);
                         foundExhibitsList.add(widget.questionIndex+1);
-                        saveProgress(widget.questionIndex, questId);
+                        // сохранение прогресса
+                        updateQuest(questId, exhibitIndex: widget.questionIndex);
                         if (widget.questionIndex < 5) {
                           Navigator.pop(context);
                         }

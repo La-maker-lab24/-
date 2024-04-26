@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:museum_app/modules/exhibit_module.dart';
 import 'modules/quests_module.dart';
 import 'userHomeScreen.dart';
+
 
 class userResultScreen extends StatelessWidget {
   final int questId;
@@ -10,6 +10,15 @@ class userResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String resultTime = getResultTime(questId).toString();
+    String message;
+
+    // TODO справить вывод результата при занчении resultTime = 0
+    // TODO исправить баг с подсчетом времени в цепочках (начать с начала - выйти), (пройти еще раз, выйти) + проверить отсальные сценарии
+    if (resultTime == '0')
+      message = 'Поздравляем! \nНа прохождение квеста\nВам потребовалось меньше минуты!';
+    message = 'Поздравляем! \nНа прохождение квеста\nВам потребовалось ≈ $resultTime минут';
+
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
@@ -31,10 +40,10 @@ class userResultScreen extends StatelessWidget {
                     height: 200,
                   ),
                   const SizedBox(height: 20),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      'Поздравляем! \nНа прохождение квеста\nвам потребовалось ≈ 15 минут',
+                      '$message',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white),
                     ),
@@ -45,8 +54,14 @@ class userResultScreen extends StatelessWidget {
                     height: 60,
                     child: ElevatedButton(
                       onPressed: () {
-                        resetProgress(questId);
-                        setQuestStatus(questId, '2');
+                        // сброс прогресса
+                        updateQuest(questId, reset: true);
+                        // изменение статуса квеста и сохранение времени прохождения квеста
+                        updateQuest(questId, newStatus: '2');
+                        print(
+                            "status: " + status.toString() + ' \n' +
+                            "time: " + getQuestInfo(questId, questInfo: "time").toString() + "\n"
+                        );
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const userHomeScreen()),
@@ -61,7 +76,6 @@ class userResultScreen extends StatelessWidget {
                       child: const Text('Вернуться на главную', style: TextStyle(color: Colors.white)),
                     ),
                   ),
-
                 ],
               ),
             ),

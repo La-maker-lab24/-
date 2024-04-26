@@ -49,7 +49,7 @@ class _userHomeScreenState extends State<userHomeScreen> {
       String title = element[1];
       String description = element[2];
       String imagePath = element[3];
-      String status = getQuestStatus(id);
+      String status = getQuestInfo(id, questInfo: "status");
       String buttonText;
       Widget destinationScreen;
       List<int> foundExhibitsList = [];
@@ -80,14 +80,25 @@ class _userHomeScreenState extends State<userHomeScreen> {
             buttonText,
             destinationScreen,
             onContinuePressed: () {
+              print(
+                  "status: " + status.toString() + ' \n' +
+                  "time: " + getQuestInfo(id, questInfo: "time").toString() + "\n"
+              );
+              startTimer();
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => destinationScreen),
               );
             },
             onRestartPressed: () {
+              updateQuest(id, time: 0);
               if (status == '1')
               {
+                print(
+                  "RESTART" +
+                  "status: " + status.toString() + ' \n' +
+                  "time: " + getQuestInfo(id, questInfo: "time").toString() + "\n"
+                );
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => userQuestScreen(foundExhibitsList: [], questId: id)),
@@ -101,6 +112,7 @@ class _userHomeScreenState extends State<userHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int startTime, finishTime;
     List<Widget> widgetList = [];
     widgetList = getQuestWidgetList();
     return MaterialApp(

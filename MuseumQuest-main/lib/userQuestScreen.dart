@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:museum_app/modules/quests_module.dart';
-import 'modules/exhibit_module.dart';
 import 'userExitScreen.dart';
 import 'userResultScreen.dart';
 import 'userCheckBluetoothScreen.dart';
@@ -201,6 +200,12 @@ class _userQuestScreenState extends State<userQuestScreen> {
 
   void _checkAllAnswers() {
     if (_isCardCorrect.every((isCorrect) => isCorrect)) {
+      stopTimer();
+      updateQuest(questId, time: getResultTime(questId));
+      print(
+          "status: " + getQuestInfo(questId, questInfo: "status").toString() + ' \n' +
+          "time: " + getQuestInfo(questId, questInfo: "time").toString() + "\n"
+      );
       Navigator.push(
         context,
         MaterialPageRoute(
