@@ -1,16 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'adminQuestAddScreen.dart';
-import 'adminDeleteQuestScreen.dart';
-
-class Quest {
-  final String name;
-  final String description;
-  final File image;
-
-  Quest({required this.name, required this.description, required this.image});
-}
+import 'package:museum_app/views/AdminTagsScreen.dart';
+import 'package:museum_app/views/adminQuestAddScreen.dart';
+import 'package:museum_app/views/adminExibitScreen.dart';
+import 'package:museum_app/modules/quest.dart';
 
 class adminHomeScreen extends StatefulWidget {
   const adminHomeScreen({Key? key}) : super(key: key);
@@ -38,6 +32,7 @@ class _adminHomeScreenState extends State<adminHomeScreen> {
       ),
       body: Column(
         children: [
+
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.all(20.0),
@@ -52,11 +47,12 @@ class _adminHomeScreenState extends State<adminHomeScreen> {
             child: ElevatedButton(
               onPressed: _navigateToAddQuest,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF1AACBC),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4.0),
-                ),
+              padding: EdgeInsets.symmetric(vertical: 10),
+              backgroundColor: Color(0xFF1AACBC),
+              shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4.0),
               ),
+            ),
               child: Text(
                 'Добавить квест',
                 style: TextStyle(
@@ -95,10 +91,17 @@ class _adminHomeScreenState extends State<adminHomeScreen> {
     setState(() {
       _selectedIndex = index;
       if (index == 1) {
-        // Handle navigation to exhibits screen
-      }
-      if (index == 2) {
-        // Handle navigation to tags screen
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => adminExibitScreen()),
+          );
+        }
+      if (index == 2)
+      {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AdminTagsScreen()),
+        );
       }
     });
   }

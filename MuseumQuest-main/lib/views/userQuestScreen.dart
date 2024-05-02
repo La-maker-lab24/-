@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:museum_app/modules/quests_module.dart';
-import 'modules/exhibit_module.dart';
-import 'userExitScreen.dart';
-import 'userResultScreen.dart';
-import 'userCheckBluetoothScreen.dart';
-import 'userCheckQuestionScreen.dart';
+import 'package:museum_app/modules/exhibit_module.dart';
+import 'package:museum_app/views/userExitScreen.dart';
+import 'package:museum_app/views/userResultScreen.dart';
+import 'package:museum_app/views/userCheckBluetoothScreen.dart';
+import 'package:museum_app/views/userCheckQuestionScreen.dart';
 
 class userQuestScreen extends StatefulWidget {
   final List<int> foundExhibitsList;

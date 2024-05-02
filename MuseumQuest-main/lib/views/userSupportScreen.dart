@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:museum_app/userHomeScreen.dart';
+import 'package:museum_app/views/userHomeScreen.dart';
 import 'userHomeScreen.dart';
 import 'adminAuthorizationScreen.dart'; // Импорт экрана администраторской авторизации
 import 'package:url_launcher/url_launcher.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:museum_app/userHomeScreen.dart';
 import 'package:museum_app/theme/theme.dart';
-import 'package:museum_app/SplashScreen.dart';
+import 'package:museum_app/appLaunchScreen.dart';
 
 void main() {
   runApp(const Main());

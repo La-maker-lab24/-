@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'userCheckBluetoothScreen.dart';
-import 'userHomeScreen.dart';
+import 'package:museum_app/views/userCheckBluetoothScreen.dart';
+import 'package:museum_app/views/userHomeScreen.dart';
+
 class userExhibitScreen extends StatelessWidget {
   const userExhibitScreen({super.key});
 

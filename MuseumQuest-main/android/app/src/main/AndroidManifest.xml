@@ -2,8 +2,14 @@
     package="museum_app">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
+
         android:label="МузБинго"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
@@ -32,7 +38,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-    </application>
+    </application
+        >
 
     <!-- Queries для обработки различных схем -->
     <queries>

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:museum_app/theme/theme.dart';
-import 'package:museum_app/userHomeScreen.dart';
-import 'package:museum_app/userSupportScreen.dart';
-import 'package:museum_app/userQuestScreen.dart';
-import 'package:museum_app/userNewQuestVersion.dart';
-import 'package:museum_app/userQuestWasDeleted.dart';
-import 'package:museum_app/ui_widgets/quest_widget.dart';
+import 'package:museum_app/views/userHomeScreen.dart';
+import 'package:museum_app/views/userSupportScreen.dart';
+import 'package:museum_app/views/userQuestScreen.dart';
+import 'package:museum_app/views/userNewQuestVersion.dart';
+import 'package:museum_app/views/userQuestWasDeleted.dart';
+import 'package:museum_app/views/ui_widgets/quest_widget.dart';
 import 'package:museum_app/modules/quests_module.dart';
 
 class userHomeScreen extends StatefulWidget {
