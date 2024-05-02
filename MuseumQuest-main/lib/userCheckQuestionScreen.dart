@@ -25,15 +25,27 @@ class _userCheckQuestionScreenState extends State<userCheckQuestionScreen> {
   String _errorMessage = '';
   List<int> foundExhibitsList;
   int questId;
+
   _userCheckQuestionScreenState({required this.foundExhibitsList, required this.questId});
-
-
-  bool _isCorrectAnswer(String answer) {
-    return answer.trim() == '18';
-  }
 
   @override
   Widget build(BuildContext context) {
+    //  String questionText = '';
+    // String questionAnswer = '';
+    // TODO дописать функцию, реализовать получение информации из БД
+    // получаем информацию о текущем вопросе
+    /*void getQuestionInfo(int questId, int index)
+    {
+      List<String> questionInfo = getQuestionInformation(questId, index);
+      questionText = questionInfo[2];
+      questionAnswer = questionInfo[3];
+      print("questionInfo"+questionInfo.toString());
+    }*/
+
+    bool _isCorrectAnswer(String answer) {
+      return answer.trim() == '18';
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF252836),
@@ -48,7 +60,7 @@ class _userCheckQuestionScreenState extends State<userCheckQuestionScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Какого века макет?',
+              'Какого века экспонат?',
               style: TextStyle(fontSize: 18.0, color: Colors.white),
             ),
             SizedBox(height: 20.0),
@@ -112,6 +124,7 @@ class _userCheckQuestionScreenState extends State<userCheckQuestionScreen> {
                       String answer = _answerController.text;
                       bool isCorrect = _isCorrectAnswer(answer);
                       if (isCorrect) {
+                        // getQuestionInfo(questId, widget.questionIndex);
                         widget.onAnswerSubmitted(true);
                         foundExhibitsList.add(widget.questionIndex+1);
                         // сохранение прогресса

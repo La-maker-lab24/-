@@ -17,7 +17,7 @@ class userResultScreen extends StatelessWidget {
     // TODO исправить баг с подсчетом времени в цепочках (начать с начала - выйти), (пройти еще раз, выйти) + проверить отсальные сценарии
     if (resultTime == '0')
       message = 'Поздравляем! \nНа прохождение квеста\nВам потребовалось меньше минуты!';
-    message = 'Поздравляем! \nНа прохождение квеста\nВам потребовалось ≈ $resultTime минут';
+    message = 'Поздравляем! \nНа прохождение квеста\nВам потребовалось ≈ $resultTime мин';
 
     return WillPopScope(
         onWillPop: () async => false,

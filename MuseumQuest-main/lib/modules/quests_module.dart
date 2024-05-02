@@ -102,6 +102,47 @@ String getQuestInfo(int questId,
   return '';
 }
 
+// получение вопросов для квеста
+List<List<String>> getQuestQuestions(int questId)
+{
+  List<List<String>> questionList = [];
+
+  var jsonData = jsonString;
+  var data = json.decode(jsonData);
+
+  List<dynamic> quests = data['quests'];
+  for (var quest in quests)
+  {
+    if (quest["quest_id"] == questId)
+    {
+      for(var value in quest["exhibits"].values)
+      {
+        questionList.add(value);
+      }
+    }
+  }
+
+  return questionList;
+}
+
+List<String> getQuestionInformation(int questId, int questionIndex)
+{
+  List<List<String>> questionsList = getQuestQuestions(questId);
+  List<String> questionInformation = [];
+
+  for (var i = 0; i < questionsList.length; i++)
+  {
+    print("getQuestionInformation"+questionsList.toString());
+    if (int.parse(questionsList[i][0]) == i)
+    {
+      questionInformation = questionsList[i];
+      break;
+    }
+  }
+
+  return questionInformation;
+}
+
 // изменение информации о квесте
 // reset - для сброса прогресса квеста
 // exhibitIndex - для сохранения прогресса прохождения (добавление экспоната с индексом exhibitIndex в найденные)
@@ -171,8 +212,7 @@ int getResultTime(int questId)
         prevResultTime = int.parse(prevQuestTime);
       }
   }
-
-
+  
   if (startTime != 0 && finishTime != 0)
   {
     // получаем результат в минутах
