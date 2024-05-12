@@ -1,60 +1,151 @@
 import 'package:flutter/material.dart';
 import 'package:museum_app/theme/theme.dart';
-import 'userQuestScreen.dart';
-import 'userCheckBluetoothScreen.dart';
-import 'userCheckQuestionScreen.dart';
-import 'userExhibitScreen.dart';
-import 'userExitScreen.dart';
-import 'userResultScreen.dart';
-import 'package:museum_app/models/quests_module.dart';
-import 'package:museum_app/userSettingsScreen.dart';
+import 'package:museum_app/userSupportScreen.dart';
+import 'package:museum_app/userQuestScreen.dart';
+import 'package:museum_app/ui_widgets/quest_widget.dart';
+import 'package:museum_app/modules/quests_module.dart';
 
 class userHomeScreen extends StatefulWidget {
-  const userHomeScreen({super.key});
+  const userHomeScreen({Key? key}) : super(key: key);
 
   @override
-  _userHomeScreenState createState() => _userHomeScreenState();
+  State<userHomeScreen> createState() => _userHomeScreenState();
 }
 
 class _userHomeScreenState extends State<userHomeScreen> {
+  int _selectedIndex = 0;
+  List<List<String>> questInfoList = getQuestsInformation();
+
+  final List<Widget> _screens = [
+    userHomeScreen(),
+    userSupportScreen(), // Замененный элемент
+  ];
+
+  void _onTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      // Добавляем проверку индекса и перенаправляем пользователя на соответствующий экран
+      if (_selectedIndex == 1) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => userSupportScreen()),
+        );
+      }
+    });
+  }
+
+  // получаем список виджетов для квестов
+  List<Widget> getQuestWidgetList()
+  {
+    List<Widget> questWidgetList = [];
+    List<List<String>> questInfoList = getQuestsInformation();
+
+    for (final element in questInfoList)
+    {
+      int id = int.parse(element[0]);
+      String title = element[1];
+      String description = element[2];
+      String imagePath = element[3];
+      String status = getQuestInfo(id, questInfo: "status");
+      String buttonText;
+      Widget destinationScreen;
+      List<int> foundExhibitsList = [];
+
+      if (status == '0')
+      {
+        buttonText = 'Начать';
+        destinationScreen = userQuestScreen(foundExhibitsList: [], questId: id);
+      }
+      else if (status == '1')
+      {
+        buttonText = 'Продолжить';
+        foundExhibitsList = getFoundExhibits(id);
+        destinationScreen = userQuestScreen(foundExhibitsList: foundExhibitsList, questId: id);
+      }
+      else {
+        buttonText = 'Пройти ещё раз';
+        destinationScreen = userQuestScreen(foundExhibitsList: [], questId: id);
+      }
+
+      questWidgetList.add(
+          buildCardWithBackground(
+            context,
+            status,
+            imagePath,
+            title,
+            description,
+            buttonText,
+            destinationScreen,
+            onContinuePressed: () {
+              print(
+                  "status: " + status.toString() + ' \n' +
+                  "time: " + getQuestInfo(id, questInfo: "time").toString() + "\n"
+              );
+              startTimer();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => destinationScreen),
+              );
+            },
+            onRestartPressed: () {
+              updateQuest(id, time: 0);
+              if (status == '1')
+              {
+                print(
+                  "RESTART" +
+                  "status: " + status.toString() + ' \n' +
+                  "time: " + getQuestInfo(id, questInfo: "time").toString() + "\n"
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => userQuestScreen(foundExhibitsList: [], questId: id)),
+                );
+              }
+            },
+          ));
+    }
+    return questWidgetList;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text("Квесты"),
-        centerTitle: true,
-      ),
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constrains) {
-          return FutureBuilder<List<Widget>>(
-              future: getQuests(),
-              builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } 
-                  else if (snapshot.hasData) {
-                    List<Widget> questsListWidgets = snapshot.data!;
-                    return ListView.builder(
-                      itemCount: questsListWidgets.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return questsListWidgets[index];
-                      },
-                    );
-                  }
-                  else if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Ошибка при загрузке данных'),
-                    );
-                  }
-                  else {
-                    return Container();
-                }
-              },
-          );
-        },
+    int startTime, finishTime;
+    List<Widget> widgetList = [];
+    widgetList = getQuestWidgetList();
+    return MaterialApp(
+      theme: themeData,
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xFF1F1D2B),
+          automaticallyImplyLeading: false, // Удалить иконку назад
+          centerTitle: true, // Выровнять заголовок по центру
+          title: Text('Квесты'),
+        ),
+        body: ListView.builder(
+          itemCount: widgetList.length,
+          itemBuilder: (BuildContext context, int index)
+          {
+            return widgetList[index];
+          }
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              label: 'Квесты',
+              icon: Image.asset(
+                'lib/img/icons/quests.png',
+              ),
+            ),
+            BottomNavigationBarItem(
+              icon: Image.asset(
+                'lib/img/icons/support.png',
+              ),
+              label: 'Поддержка',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: _onTapped,
+        ),
       ),
     );
   }
