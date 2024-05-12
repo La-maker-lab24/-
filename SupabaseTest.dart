@@ -20,3 +20,41 @@ void main() async {
   read();
 }
 
+Future<void> createJsonFromDB() async {
+  // List<Map<String, dynamic>> quests = await db.query('tblQuest');
+  Map<String, dynamic> jsonMap = {};
+
+  for (var quest in quests) {
+    String questName = quest['name'];
+    int questId = quest['idQuest'];
+
+    Map<String, dynamic> questData = {
+      'quest_id': questId,
+      'description': quest['description'],
+      'stat': '0',
+      'img': 'lib/img/' + quest['imgLink'],
+      'exhibits': {}
+    };
+
+    List<Map<String, dynamic>> exhibits = await db.rawQuery('''
+      SELECT tblExhibit.idExhibit, tblEXhibit.imgLink, tblExtaQuestion.questionText
+      FROM tblEXhibit
+      INNER JOIN tblIExhibitsInQuest ON tblEXhibit.idExhibit = tblIExhibitsInQuest.idExhibit
+      INNER JOIN tblExtaQuestion ON tblEXhibit.idExtraQuestion = tblExtaQuestion.idExtaQuestion
+      WHERE tblIExhibitsInQuest.idQuest = $questId
+    ''');
+
+    for (var exhibit in exhibits) {
+      String exhibitImg = exhibit['imgLink'];
+      String questionText = exhibit['questionText'];
+      int exhibitId = exhibit['idExhibit'];
+
+      questData['exhibits'][exhibitImg] = ['q', questionText, exhibitId.toString()];
+    }
+
+    jsonMap[questName] = questData;
+  }
+
+  String jsonString = jsonEncode(jsonMap);
+  print(jsonString);
+}
