@@ -21,6 +21,7 @@ class _userQuestScreenState extends State<userQuestScreen> {
   List<bool> _isCardCorrect = [];
   List<List<dynamic>> _exhibitsInfoList = [];
   _userQuestScreenState({required this.foundExhibitsList, required this.questId});
+  String _questTitle = "";
 
 void _loadCorrectCards() async {
   var cards = await getCorrectCardList(foundExhibitsList);
@@ -33,7 +34,11 @@ void _loadCorrectCards() async {
     super.initState();
     // Инициализация _isCardCorrect здесь, если это возможно, или внутри Future.delayed
     _loadCorrectCards();
-
+    getEhxibitCombineInfo(foundExhibitsList, questId).then((data) {
+      setState(() {
+        _questTitle = data![2];
+      });
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -51,7 +56,7 @@ void _loadCorrectCards() async {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Изобретения'),
+          title: Text(_questTitle),
           centerTitle: true,
         ),
         body: SafeArea(

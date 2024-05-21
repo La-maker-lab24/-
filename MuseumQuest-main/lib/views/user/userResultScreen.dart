@@ -43,7 +43,7 @@ class userResultScreen extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    'Поздравляем! \nНа прохождение квеста\nвам потребовалось ≈ 15 минут',
+                    'Поздравляем! \nВы успешно прошли квест!',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white),
                   ),

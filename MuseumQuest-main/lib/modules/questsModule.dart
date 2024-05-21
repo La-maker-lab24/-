@@ -103,3 +103,7 @@ Future<void> setQuestStatus(int questId, String newStatus) async
   final file = await File('$path/progress.json');
   await file.writeAsString(data1);
 }
+
+Future<String> getQuestTitle(int questId) async{
+  return "";
+}

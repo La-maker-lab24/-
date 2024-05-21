@@ -115,8 +115,17 @@ Future<List<dynamic>> getEhxibitCombineInfo(
     exhibitsInfo.add(exhInfo);
   }
 
+  String questTitle = "";
+  List<List<String>> questInfoList = await getQuestsInformation();
+  for (var i in questInfoList)
+  {
+    if (int.parse(i[0]) == questId) {
+      questTitle = i[1];
+    }
+  }
+
   print("correctCardList" + correctCardList.toString());
   print("exhibitsInfo" + exhibitsInfo.toString());
 
-  return [correctCardList, exhibitsInfo];
+  return [correctCardList, exhibitsInfo, questTitle];
 }
